@@ -47,10 +47,10 @@ int Optdialog::createdialog()
         return -1;
     }
 
-    QLabel* label1 = new QLabel(tr("Éè±¸"));
-    QLabel* label2 = new QLabel(tr("¹ıÂË"));
-    QLabel* label3 = new QLabel(tr("Íø¿¨Ä£Ê½"));
-    QLabel* label4 = new QLabel(tr("ÏŞÖÆÃ¿¸ö°üµÄ×î´ó´óĞ¡"));
+    QLabel* label1 = new QLabel(tr("è®¾å¤‡"));
+    QLabel* label2 = new QLabel(tr("è¿‡æ»¤"));
+    QLabel* label3 = new QLabel(tr("ç½‘å¡æ¨¡å¼"));
+    QLabel* label4 = new QLabel(tr("é™åˆ¶æ¯ä¸ªåŒ…çš„æœ€å¤§å¤§å°"));
 
     QVBoxLayout* tmp1 = new QVBoxLayout;
     tmp1->addWidget(label1);
@@ -92,8 +92,8 @@ int Optdialog::createdialog()
                                           20,
                                           QSizePolicy::Expanding,
                                           QSizePolicy::Minimum);
-    button1 = new QPushButton(tr("¿ªÊ¼"));
-    button2 = new QPushButton(tr("È¡Ïû"));
+    button1 = new QPushButton(tr("å¼€å§‹"));
+    button2 = new QPushButton(tr("å–æ¶ˆ"));
 
     QHBoxLayout* low = new QHBoxLayout;
     low->addItem(spacer);
@@ -127,8 +127,8 @@ void Optdialog::startbutton()
 void Optdialog::handle_grammererror()
 {
     QMessageBox::warning(this,
-                         "²ÎÊı´íÎó",
-                         "¹ıÂË²ÎÊı²»ÕıÈ·£¬¹ıÂËÓï·¨Çë²é¿´°ïÖúĞÅÏ¢",
+                         "å‚æ•°é”™è¯¯",
+                         "è¿‡æ»¤å‚æ•°ä¸æ­£ç¡®ï¼Œè¿‡æ»¤è¯­æ³•è¯·æŸ¥çœ‹å¸®åŠ©ä¿¡æ¯",
                          QMessageBox::Ok);
     delete(filter);
 }

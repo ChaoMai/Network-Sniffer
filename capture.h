@@ -14,11 +14,11 @@ class Capture_thread : public QThread
     Q_OBJECT
 
 public:
-    pcap_if_t* alldevs; //Éè±¸ÁĞ±í£¬°üº¬ÁËÉè±¸µÄÏêÏ¸ĞÅÏ¢
+    pcap_if_t* alldevs; //è®¾å¤‡åˆ—è¡¨ï¼ŒåŒ…å«äº†è®¾å¤‡çš„è¯¦ç»†ä¿¡æ¯
 
-    void set_parameter(const int interface_num, //Íø¿¨ºÅ
-                       const Filter filter, //²¶»ñ¹ıÂË
-                       const int capture_mode, //Íø¿¨Ä£Ê½
+    void set_parameter(const int interface_num, //ç½‘å¡å·
+                       const Filter filter, //æ•è·è¿‡æ»¤
+                       const int capture_mode, //ç½‘å¡æ¨¡å¼
                        const int each_pkt_size
                        );
     void open_and_get();
@@ -40,12 +40,12 @@ protected:
     void run();
 
 private:
-    int interface_num; //Íø¿¨ºÅ
-    Filter filter; //²¶»ñ¹ıÂË
-    int capture_mode; //Íø¿¨Ä£Ê½
-    int each_pkt_size; //Ã¿¸ö°üµÄ×î´ó´óĞ¡
+    int interface_num; //ç½‘å¡å·
+    Filter filter; //æ•è·è¿‡æ»¤
+    int capture_mode; //ç½‘å¡æ¨¡å¼
+    int each_pkt_size; //æ¯ä¸ªåŒ…çš„æœ€å¤§å¤§å°
     int kernel_cache;
-    char errbuf[PCAP_ERRBUF_SIZE]; //±£´æ´íÎó
+    char errbuf[PCAP_ERRBUF_SIZE]; //ä¿å­˜é”™è¯¯
     void analysis(const struct pcap_pkthdr* header,
                   const u_char* pkt_data,
                   const Filter filter);

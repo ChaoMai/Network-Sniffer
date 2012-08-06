@@ -48,8 +48,8 @@ void MainWindow::open()
         }
 
         QString filename = QFileDialog::getOpenFileName(this,
-                                                        tr("´ò¿ª"), ".",
-                                                        tr("pcapÎÄ¼ş (*.pcap)"));
+                                                        tr("æ‰“å¼€"), ".",
+                                                        tr("pcapæ–‡ä»¶ (*.pcap)"));
         if(!filename.isEmpty())
         {
             is_file_opened = true;
@@ -64,8 +64,8 @@ void MainWindow::open()
 bool MainWindow::save()
 {
     QString filename = QFileDialog::getSaveFileName(this,
-                                                    tr("±£´æ"), ".",
-                                                    tr("pcapÎÄ¼ş (*.pcap)"));
+                                                    tr("ä¿å­˜"), ".",
+                                                    tr("pcapæ–‡ä»¶ (*.pcap)"));
     if(filename.isEmpty())
     {
         return false;
@@ -92,8 +92,8 @@ void MainWindow::close_file()
     else
     {
         QMessageBox::warning(this,
-                             tr("×¢Òâ"),
-                             tr("Î´´ò¿ªÎÄ¼ş"));
+                             tr("æ³¨æ„"),
+                             tr("æœªæ‰“å¼€æ–‡ä»¶"));
     }
 }
 
@@ -121,8 +121,8 @@ void MainWindow::start_capture()
         else if(capture->isRunning())
         {
             QMessageBox::warning(this,
-                                 tr("×¢Òâ"),
-                                 tr("ÇëÏÈÍ£Ö¹²¶»ñÊı¾İ°ü"));
+                                 tr("æ³¨æ„"),
+                                 tr("è¯·å…ˆåœæ­¢æ•è·æ•°æ®åŒ…"));
         }
     }
 }
@@ -144,14 +144,14 @@ void MainWindow::restart_capture()
         else if(NULL == capture && is_cap_para_setted)
         {
             QMessageBox::warning(this,
-                                 tr("×¢Òâ"),
-                                 tr("Ö»ÄÜÔÚ²¶»ñ×´Ì¬ÏÂÖØĞÂ¿ªÊ¼²¶»ñ"));
+                                 tr("æ³¨æ„"),
+                                 tr("åªèƒ½åœ¨æ•è·çŠ¶æ€ä¸‹é‡æ–°å¼€å§‹æ•è·"));
         }
         else
         {
             QMessageBox::warning(this,
-                                 tr("×¢Òâ"),
-                                 tr("²¶»ñ²ÎÊıÎ´ÉèÖÃ"));
+                                 tr("æ³¨æ„"),
+                                 tr("æ•è·å‚æ•°æœªè®¾ç½®"));
         }
     }
 }
@@ -161,8 +161,8 @@ void MainWindow::stop_capture()
     if(NULL == capture)
     {
         QMessageBox::warning(this,
-                             tr("×¢Òâ"),
-                             tr("Î´¿ªÊ¼²¶»ñÊı¾İ°ü"));
+                             tr("æ³¨æ„"),
+                             tr("æœªå¼€å§‹æ•è·æ•°æ®åŒ…"));
     }
     else
     {
@@ -181,12 +181,12 @@ void MainWindow::capture_option()
 void MainWindow::show_avalible()
 {
     QMessageBox::about(this,
-                       tr("µ±Ç°¿É·ÖÎöµÄÊı¾İ°üÖÖÀà"),
-                       tr("<h2>ÍøÂç²ã</h2>"
+                       tr("å½“å‰å¯åˆ†æçš„æ•°æ®åŒ…ç§ç±»"),
+                       tr("<h2>ç½‘ç»œå±‚</h2>"
                           "<p>ARP</p>"
                           "<p>RARP</p>"
                           "<p>IP</p>"
-                          "<h2>´«Êä²ã</h2>"
+                          "<h2>ä¼ è¾“å±‚</h2>"
                           "<p>TCP</p>"
                           "<p>UDP</p>"
                           "<p>ICMP</p>"));
@@ -228,7 +228,7 @@ void MainWindow::update_show(const ListData data, QString anadetial)
     table->setItem(current, 9, new QTableWidgetItem(QString(tr(list_tmp.Text))));
     table->setItem(current, 10, new QTableWidgetItem(anadetial));
     char status[50];
-    sprintf(status, "ÒÑ²¶»ñ£º%d", current + 1);
+    sprintf(status, "å·²æ•è·ï¼š%d", current + 1);
     statusBar()->showMessage(QString(status));
 }
 
@@ -259,14 +259,14 @@ void MainWindow::show_listtext(int r, int c)
 
 void MainWindow::createactions()
 {
-    open_action = new QAction(tr("´ò¿ª"), this);
+    open_action = new QAction(tr("æ‰“å¼€"), this);
     open_action->setShortcut(QKeySequence::New);
-    open_action->setStatusTip(tr("´ò¿ªĞÂµÄpcapÎÄ¼ş"));
+    open_action->setStatusTip(tr("æ‰“å¼€æ–°çš„pcapæ–‡ä»¶"));
     connect(open_action, SIGNAL(triggered()), this, SLOT(open()));
 
-    save_action = new QAction(tr("±£´æ"), this);
+    save_action = new QAction(tr("ä¿å­˜"), this);
     save_action->setShortcut(QKeySequence::Open);
-    save_action->setStatusTip(tr("±£´æÊı¾İµ½Ó²ÅÌ"));
+    save_action->setStatusTip(tr("ä¿å­˜æ•°æ®åˆ°ç¡¬ç›˜"));
     connect(save_action, SIGNAL(triggered()), this, SLOT(save()));
 
     for(int i = 0; i < max_recentfiles; ++i)
@@ -277,54 +277,54 @@ void MainWindow::createactions()
                 this, SLOT(open_recent()));
     }
 
-    close_action = new QAction(tr("¹Ø±Õ"), this);
-    close_action->setStatusTip(tr("¹Ø±Õµ±Ç°ÎÄ¼ş"));
+    close_action = new QAction(tr("å…³é—­"), this);
+    close_action->setStatusTip(tr("å…³é—­å½“å‰æ–‡ä»¶"));
     connect(close_action, SIGNAL(triggered()), this, SLOT(close_file()));
 
-    exit_action = new QAction(tr("ÍË³ö"), this);
+    exit_action = new QAction(tr("é€€å‡º"), this);
     exit_action->setShortcut(tr("Ctrl+Q"));
-    exit_action->setStatusTip(tr("ÍË³ö³ÌĞò"));
+    exit_action->setStatusTip(tr("é€€å‡ºç¨‹åº"));
     connect(exit_action, SIGNAL(triggered()), this, SLOT(close()));
 
-    start_action = new QAction(tr("¿ªÊ¼²¶»ñ"), this);
-    start_action->setStatusTip(tr("¿ªÊ¼²¶»ñÊı¾İ°ü"));
+    start_action = new QAction(tr("å¼€å§‹æ•è·"), this);
+    start_action->setStatusTip(tr("å¼€å§‹æ•è·æ•°æ®åŒ…"));
     connect(start_action, SIGNAL(triggered()),
             this, SLOT(start_capture()));
 
-    restart_action = new QAction(tr("ÖØĞÂ¿ªÊ¼²¶»ñ"), this);
-    restart_action->setStatusTip(tr("ÖØĞÂ¿ªÊ¼²¶»ñÊı¾İ°ü"));
+    restart_action = new QAction(tr("é‡æ–°å¼€å§‹æ•è·"), this);
+    restart_action->setStatusTip(tr("é‡æ–°å¼€å§‹æ•è·æ•°æ®åŒ…"));
     connect(restart_action, SIGNAL(triggered()),
             this, SLOT(restart_capture()));
 
-    stop_action = new QAction(tr("Í£Ö¹²¶»ñ"), this);
-    stop_action->setStatusTip(tr("Í£Ö¹²¶»ñÊı¾İ°ü"));
+    stop_action = new QAction(tr("åœæ­¢æ•è·"), this);
+    stop_action->setStatusTip(tr("åœæ­¢æ•è·æ•°æ®åŒ…"));
     connect(stop_action, SIGNAL(triggered()),
             this, SLOT(stop_capture()));
 
-    avalible_action = new QAction(tr("¿É·ÖÎöµÄÊı¾İ°ü"), this);
-    avalible_action->setStatusTip(tr("ÏÔÊ¾¿É·ÖÎöµÄÊı¾İ°ü"));
+    avalible_action = new QAction(tr("å¯åˆ†æçš„æ•°æ®åŒ…"), this);
+    avalible_action->setStatusTip(tr("æ˜¾ç¤ºå¯åˆ†æçš„æ•°æ®åŒ…"));
     connect(avalible_action, SIGNAL(triggered()),
             this, SLOT(show_avalible()));
 
-    manual_action = new QAction(tr("Ê¹ÓÃÊÖ²á"), this);
-    manual_action->setStatusTip(tr("Ê¹ÓÃÊÖ²á"));
+    manual_action = new QAction(tr("ä½¿ç”¨æ‰‹å†Œ"), this);
+    manual_action->setStatusTip(tr("ä½¿ç”¨æ‰‹å†Œ"));
     connect(manual_action, SIGNAL(triggered()),
             this, SLOT(show_manual()));
 
-    about_action = new QAction(tr("¹ØÓÚ"), this);
-    about_action->setStatusTip(tr("¹ØÓÚ±¾Èí¼ş"));
+    about_action = new QAction(tr("å…³äº"), this);
+    about_action->setStatusTip(tr("å…³äºæœ¬è½¯ä»¶"));
     connect(about_action, SIGNAL(triggered()),
             this, SLOT(about()));
 
-    aboutqt_action = new QAction(tr("¹ØÓÚQt"), this);
-    aboutqt_action->setStatusTip(tr("¹ØÓÚQt"));
+    aboutqt_action = new QAction(tr("å…³äºQt"), this);
+    aboutqt_action->setStatusTip(tr("å…³äºQt"));
     connect(aboutqt_action, SIGNAL(triggered()),
             qApp, SLOT(aboutQt()));
 }
 
 void MainWindow::createmenus()
 {
-    file_menu = menuBar()->addMenu(tr("ÎÄ¼ş"));
+    file_menu = menuBar()->addMenu(tr("æ–‡ä»¶"));
     file_menu->addAction(open_action);
     file_menu->addAction(save_action);
     file_menu->addAction(close_action);
@@ -336,17 +336,17 @@ void MainWindow::createmenus()
     file_menu->addSeparator();
     file_menu->addAction(exit_action);
 
-    capture_menu = menuBar()->addMenu(tr("²¶»ñ"));
+    capture_menu = menuBar()->addMenu(tr("æ•è·"));
     capture_menu->addAction(start_action);
     capture_menu->addAction(restart_action);
     capture_menu->addAction(stop_action);
 
-    analysis_menu = menuBar()->addMenu(tr("·ÖÎö"));
+    analysis_menu = menuBar()->addMenu(tr("åˆ†æ"));
     analysis_menu->addAction(avalible_action);
 
     menuBar()->addSeparator();
 
-    help_menu =  menuBar()->addMenu(tr("°ïÖú"));
+    help_menu =  menuBar()->addMenu(tr("å¸®åŠ©"));
     help_menu->addAction(manual_action);
     help_menu->addAction(about_action);
     help_menu->addAction(aboutqt_action);
@@ -370,7 +370,7 @@ void MainWindow::createtoolbars()
 
 void MainWindow::createstatusbar()
 {
-    status_label = new QLabel(" ×´Ì¬ ");
+    status_label = new QLabel(" çŠ¶æ€ ");
     status_label->setAlignment(Qt::AlignHCenter);
     status_label->setMinimumSize(status_label->sizeHint());
 
@@ -388,9 +388,9 @@ void MainWindow::createshowarea()
     table->setColumnHidden(9, true);
     table->setColumnHidden(10, true);
     QStringList headers;
-    headers << tr("Ê±¼ä") << tr("Ô´IP") << tr("Ô´Port") << tr("Ô´MAC")
-            << tr("Ä¿µÄIP")  << tr("Ä¿µÄPort")<< tr("Ä¿µÄMAC") <<tr("Ğ­Òé")
-            << tr("³¤¶È");
+    headers << tr("æ—¶é—´") << tr("æºIP") << tr("æºPort") << tr("æºMAC")
+            << tr("ç›®çš„IP")  << tr("ç›®çš„Port")<< tr("ç›®çš„MAC") <<tr("åè®®")
+            << tr("é•¿åº¦");
     table->setHorizontalHeaderLabels(headers);
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -439,8 +439,8 @@ bool MainWindow::handle_tablechange()
     {
         int r;
         r = QMessageBox::warning(this,
-                                 tr("×¢Òâ"),
-                                 tr("²¶»ñµÄÊı¾İÎ´±£´æ£¬ÊÇ·ñÒª±£´æ£¿"),
+                                 tr("æ³¨æ„"),
+                                 tr("æ•è·çš„æ•°æ®æœªä¿å­˜ï¼Œæ˜¯å¦è¦ä¿å­˜ï¼Ÿ"),
                                  QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if(QMessageBox::Yes == r)
         {
@@ -463,12 +463,12 @@ bool MainWindow::savefile(QString filename)
     status = file.rename(QString("/tmp.pcap"), filename);
     if(status)
     {
-        statusBar()->showMessage(QString("±£´æ³É¹¦"), 2000);
+        statusBar()->showMessage(QString("ä¿å­˜æˆåŠŸ"), 2000);
         return true;
     }
     else
     {
-        statusBar()->showMessage(QString("±£´æÊ§°Ü"), 2000);
+        statusBar()->showMessage(QString("ä¿å­˜å¤±è´¥"), 2000);
         return false;
     }
 }

@@ -33,7 +33,7 @@ int Capture_thread::get_interface_amount(void)
 {
     int i;
     i = 0;
-    pcap_if_t* d; //Éè±¸ÁĞ±íÖ¸Õë
+    pcap_if_t* d; //è®¾å¤‡åˆ—è¡¨æŒ‡é’ˆ
 
     for(d = alldevs; d; d = d->next)
     {
@@ -42,7 +42,7 @@ int Capture_thread::get_interface_amount(void)
 
     if(0 == i)
     {
-        sprintf(errbuf, "Î´ÕÒµ½Éè±¸£¬ ÇëÈ·ÈÏWinPcapÒÑ°²×°");
+        sprintf(errbuf, "æœªæ‰¾åˆ°è®¾å¤‡ï¼Œ è¯·ç¡®è®¤WinPcapå·²å®‰è£…");
         return -1;
     }
     else
@@ -56,7 +56,7 @@ int Capture_thread::get_interface_item(void)
     if(-1 == (pcap_findalldevs_ex(PCAP_SRC_IF_STRING,
                                   NULL, &alldevs, errbuf)))
     {
-        sprintf(errbuf, "²éÕÒÉè±¸Ê±Ê§°Ü");
+        sprintf(errbuf, "æŸ¥æ‰¾è®¾å¤‡æ—¶å¤±è´¥");
         return -1;
     }
     return 0;
@@ -70,7 +70,7 @@ void Capture_thread::open_and_get()
         return;
     }
 
-    //Ìø×ªµ½Ö¸¶¨µÄÍø¿¨
+    //è·³è½¬åˆ°æŒ‡å®šçš„ç½‘å¡
     pcap_if_t* d;
     d = alldevs;
     int i;
@@ -80,19 +80,19 @@ void Capture_thread::open_and_get()
         d = d->next;
     }
 
-    //´ò¿ªÉè±¸
+    //æ‰“å¼€è®¾å¤‡
     pcap_t* adhandle;
-    adhandle = pcap_open(d->name, //Éè±¸Ãû
-                         each_pkt_size, //65535±£Ö¤ÄÜ²¶»ñµ½²»Í¬Êı¾İÁ´Â·²ãÉÏµÄÃ¿¸öÊı¾İ°üµÄÈ«²¿ÄÚÈİ
-                         capture_mode, //ÉèÖÃÍø¿¨µÄÄ£Ê½
-                         1000, //¶ÁÈ¡³¬Ê±Ê±¼ä
-                         NULL, //ÒòÎª²»Ê¹ÓÃÔ¶³Ì²¶»ñ£¬ËùÒÔÔ¶³Ì»úÆ÷ÑéÖ¤Îª¿Õ
-                         errbuf //´íÎó»º³å
+    adhandle = pcap_open(d->name, //è®¾å¤‡å
+                         each_pkt_size, //65535ä¿è¯èƒ½æ•è·åˆ°ä¸åŒæ•°æ®é“¾è·¯å±‚ä¸Šçš„æ¯ä¸ªæ•°æ®åŒ…çš„å…¨éƒ¨å†…å®¹
+                         capture_mode, //è®¾ç½®ç½‘å¡çš„æ¨¡å¼
+                         1000, //è¯»å–è¶…æ—¶æ—¶é—´
+                         NULL, //å› ä¸ºä¸ä½¿ç”¨è¿œç¨‹æ•è·ï¼Œæ‰€ä»¥è¿œç¨‹æœºå™¨éªŒè¯ä¸ºç©º
+                         errbuf //é”™è¯¯ç¼“å†²
                          );
 
     if(NULL == adhandle)
     {
-        sprintf(errbuf, "ÎŞ·¨´ò¿ªÊÊÅäÆ÷. %s²»±»WinPcapÖ§³Ö", d->name);
+        sprintf(errbuf, "æ— æ³•æ‰“å¼€é€‚é…å™¨. %sä¸è¢«WinPcapæ”¯æŒ", d->name);
         pcap_freealldevs(alldevs);
         return;
     }
@@ -104,7 +104,7 @@ void Capture_thread::open_and_get()
 
     if(NULL == dumpfile)
     {
-        sprintf(errbuf, "ÎŞ·¨´ò¿ªÁÙÊ±ÎÄ¼ş");
+        sprintf(errbuf, "æ— æ³•æ‰“å¼€ä¸´æ—¶æ–‡ä»¶");
         return;
     }
 
@@ -308,7 +308,7 @@ void Capture_thread::analysis(const pcap_pkthdr *header,
         default:
         {
             analysised = true;
-            strcpy(list.Protocol, "Î´ÖªIP°ü");
+            strcpy(list.Protocol, "æœªçŸ¥IPåŒ…");
             strcpy(list.sIP, "----------");
             strcpy(list.dIP, "----------");
             strcpy(list.sPort, "--");
@@ -344,7 +344,7 @@ void Capture_thread::analysis(const pcap_pkthdr *header,
     default:
     {
         analysised = true;
-        strcpy(list.Protocol, "Î´ÖªÒÔÌ«°ü");
+        strcpy(list.Protocol, "æœªçŸ¥ä»¥å¤ªåŒ…");
         strcpy(list.sIP, "----------");
         strcpy(list.dIP, "----------");
         strcpy(list.sPort, "--");
@@ -374,7 +374,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
     struct iphead *IPHead;
     struct arphead *ARPHead;
 
-    sprintf(tmp, "<p>ÒÔÌ«ÍøÖ¡³¤¶È:%d</p>", header->caplen);
+    sprintf(tmp, "<p>ä»¥å¤ªç½‘å¸§é•¿åº¦:%d</p>", header->caplen);
     anadetial.append(QString(tmp));
 
     eth=(struct ether_header *)pkt_data;
@@ -386,7 +386,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
             *(mac_string + 3),
             *(mac_string + 4),
             *(mac_string + 5));
-    sprintf(tmp, "<p>Ô´MACµØÖ·:%s</p>", mac_addr);
+    sprintf(tmp, "<p>æºMACåœ°å€:%s</p>", mac_addr);
     anadetial.append(QString(tmp));
 
     mac_string=eth->ether_dhost;
@@ -397,16 +397,16 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
             *(mac_string + 3),
             *(mac_string + 4),
             *(mac_string + 5));
-    sprintf(tmp, "<p>Ä¿µÄMACµØÖ·:%s</p>", mac_addr);
+    sprintf(tmp, "<p>ç›®çš„MACåœ°å€:%s</p>", mac_addr);
     anadetial.append(QString(tmp));
 
-    anadetial.append(QString("<p>ÒÔÌ«ÍøÖ¡ÀàĞÍ:</p>"));
+    anadetial.append(QString("<p>ä»¥å¤ªç½‘å¸§ç±»å‹:</p>"));
     ptype = qFromBigEndian(eth->ether_type);
     switch(ptype)
     {
     case ETHERTYPE_ARP:
     {
-        sprintf(tmp, "<p>ARP°ü</p>");
+        sprintf(tmp, "<p>ARPåŒ…</p>");
         anadetial.append(QString(tmp));
 
         sprintf(tmp, "<p>---------------------</p>");
@@ -414,28 +414,28 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
         ARPHead = (arphead*)(pkt_data + 14);
 
-        sprintf(tmp, "<p>Ó²¼şÀàĞÍ:%d Byte</p>",
+        sprintf(tmp, "<p>ç¡¬ä»¶ç±»å‹:%d Byte</p>",
                 qFromBigEndian(ARPHead->arp_hardware_type));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>ARP°üĞ­ÒéÀàĞÍ:%d</p>",
+        sprintf(tmp, "<p>ARPåŒ…åè®®ç±»å‹:%d</p>",
                 qFromBigEndian(ARPHead->arp_protocol_type));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>Ó²¼ş³¤¶È:%d</p>",
+        sprintf(tmp, "<p>ç¡¬ä»¶é•¿åº¦:%d</p>",
                 qFromBigEndian(ARPHead->arp_hardware_length));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>Ğ­Òé³¤¶È:%d</p>",
+        sprintf(tmp, "<p>åè®®é•¿åº¦:%d</p>",
                 qFromBigEndian(ARPHead->arp_protocol_length));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>ARP²Ù×÷Âë:%d (ÇëÇó1,»Ø´ğ2)</p>",
+        sprintf(tmp, "<p>ARPæ“ä½œç :%d (è¯·æ±‚1,å›ç­”2)</p>",
                 qFromBigEndian(ARPHead->arp_operation_code));
         anadetial.append(QString(tmp));
 
         mac_string=ARPHead->arp_source_ethernet_address;
-        sprintf(tmp, "<p>ARP°ü·¢ËÍ·½MAC:%02X:%02X:%02X:%02X:%02X:%02X</p>",
+        sprintf(tmp, "<p>ARPåŒ…å‘é€æ–¹MAC:%02X:%02X:%02X:%02X:%02X:%02X</p>",
                 *mac_string,
                 *(mac_string + 1),
                 *(mac_string + 2),
@@ -444,7 +444,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
                 *(mac_string + 5));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>ARP°ü·¢ËÍ·½IP:%d.%d.%d.%d</p>",
+        sprintf(tmp, "<p>ARPåŒ…å‘é€æ–¹IP:%d.%d.%d.%d</p>",
                 ARPHead->arp_source_ip_address[0],
                 ARPHead->arp_source_ip_address[1],
                 ARPHead->arp_source_ip_address[2],
@@ -452,7 +452,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
         anadetial.append(QString(tmp));
 
         mac_string=ARPHead->arp_destination_ethernet_address;
-        sprintf(tmp, "<p>ARP°ü½ÓÊÕ·½MAC:%02X:%02X:%02X:%02X:%02X:%02X</p>",
+        sprintf(tmp, "<p>ARPåŒ…æ¥æ”¶æ–¹MAC:%02X:%02X:%02X:%02X:%02X:%02X</p>",
                 *mac_string,
                 *(mac_string + 1),
                 *(mac_string + 2),
@@ -461,7 +461,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
                 *(mac_string + 5));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>ARP°ü½ÓÊÕ·½IP:%d.%d.%d.%d</p>",
+        sprintf(tmp, "<p>ARPåŒ…æ¥æ”¶æ–¹IP:%d.%d.%d.%d</p>",
                 ARPHead->arp_destination_ip_address[0],
                 ARPHead->arp_destination_ip_address[1],
                 ARPHead->arp_destination_ip_address[2],
@@ -473,7 +473,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
     case ETHERTYPE_REVARP:
     {
-        sprintf(tmp, "<p>RARP°ü</p>");
+        sprintf(tmp, "<p>RARPåŒ…</p>");
         anadetial.append(QString(tmp));
 
         break;
@@ -481,57 +481,57 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
     case ETHERTYPE_IP:
     {
-        sprintf(tmp, "<p>IP°ü</p>");
+        sprintf(tmp, "<p>IPåŒ…</p>");
         anadetial.append(QString(tmp));
         IPHead=(iphead *)(pkt_data+14);
         sprintf(tmp, "<p>---------------------</p>");
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IPÍ·³¤:%d BYTE</p>", (IPHead->ip_header_length) *4 );
+        sprintf(tmp, "<p>IPå¤´é•¿:%d BYTE</p>", (IPHead->ip_header_length) *4 );
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°æ±¾ºÅ:%d</p>", IPHead->ip_version);
+        sprintf(tmp, "<p>IPç‰ˆæœ¬å·:%d</p>", IPHead->ip_version);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP·şÎñÀàĞÍ:%d</p>", qFromBigEndian(IPHead->ip_tos));
+        sprintf(tmp, "<p>IPæœåŠ¡ç±»å‹:%d</p>", qFromBigEndian(IPHead->ip_tos));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°ü×Ü³¤¶È:%d</p>", qFromBigEndian(IPHead->ip_length));
+        sprintf(tmp, "<p>IPåŒ…æ€»é•¿åº¦:%d</p>", qFromBigEndian(IPHead->ip_length));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°ü±êÊ¶:%d</p>", qFromBigEndian(IPHead->ip_id));
+        sprintf(tmp, "<p>IPåŒ…æ ‡è¯†:%d</p>", qFromBigEndian(IPHead->ip_id));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°ü·ÖÆ¬±êÖ¾(DF):%d</p>", (qFromBigEndian(IPHead->ip_off) & 0X4000) >> 14);
+        sprintf(tmp, "<p>IPåŒ…åˆ†ç‰‡æ ‡å¿—(DF):%d</p>", (qFromBigEndian(IPHead->ip_off) & 0X4000) >> 14);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°ü·ÖÆ¬±êÖ¾(MF):%d</p>", (qFromBigEndian(IPHead->ip_off) & 0X2000) >> 13);
+        sprintf(tmp, "<p>IPåŒ…åˆ†ç‰‡æ ‡å¿—(MF):%d</p>", (qFromBigEndian(IPHead->ip_off) & 0X2000) >> 13);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°ü·ÖÆ¬Æ«ÒÆ:%d Byte</p>", 8 * (qFromBigEndian(IPHead->ip_off) & 0X1FFF));
+        sprintf(tmp, "<p>IPåŒ…åˆ†ç‰‡åç§»:%d Byte</p>", 8 * (qFromBigEndian(IPHead->ip_off) & 0X1FFF));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°üÉú´æÊ±¼ä:%d</p>", (IPHead->ip_ttl));
+        sprintf(tmp, "<p>IPåŒ…ç”Ÿå­˜æ—¶é—´:%d</p>", (IPHead->ip_ttl));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°ü¼ìÑéºÍ:%0X</p>", qFromBigEndian(IPHead->ip_checksum));
+        sprintf(tmp, "<p>IPåŒ…æ£€éªŒå’Œ:%0X</p>", qFromBigEndian(IPHead->ip_checksum));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°üÔ´IP:%d.%d.%d.%d</p>",
+        sprintf(tmp, "<p>IPåŒ…æºIP:%d.%d.%d.%d</p>",
                 IPHead->ip_souce_address.S_un.S_un_b.s_b1,
                 IPHead->ip_souce_address.S_un.S_un_b.s_b2,
                 IPHead->ip_souce_address.S_un.S_un_b.s_b3,
                 IPHead->ip_souce_address.S_un.S_un_b.s_b4);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP°üÄ¿µÄIP:%d.%d.%d.%d</p>",
+        sprintf(tmp, "<p>IPåŒ…ç›®çš„IP:%d.%d.%d.%d</p>",
                 IPHead->ip_destination_address.S_un.S_un_b.s_b1,
                 IPHead->ip_destination_address.S_un.S_un_b.s_b2,
                 IPHead->ip_destination_address.S_un.S_un_b.s_b3,
                 IPHead->ip_destination_address.S_un.S_un_b.s_b4);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IPĞ­Òé:");
+        sprintf(tmp, "<p>IPåè®®:");
         anadetial.append(QString(tmp));
 
         switch(IPHead->ip_protocol)
@@ -562,7 +562,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
         default:
         {
-            sprintf(tmp, "%d(Î´Öª)</p>", IPHead->ip_protocol);
+            sprintf(tmp, "%d(æœªçŸ¥)</p>", IPHead->ip_protocol);
             anadetial.append(QString(tmp));
 
             break;
@@ -581,7 +581,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
     default:
     {
-        sprintf(tmp, "<p>Î´Öª</p>");
+        sprintf(tmp, "<p>æœªçŸ¥</p>");
         anadetial.append(QString(tmp));
 
         break;
@@ -721,7 +721,7 @@ void Capture_thread::analysis_offline(const char *filename)
 
             default:
             {
-                strcpy(list.Protocol, "Î´ÖªIP°ü");
+                strcpy(list.Protocol, "æœªçŸ¥IPåŒ…");
                 strcpy(list.sIP, "----------");
                 strcpy(list.dIP, "----------");
                 strcpy(list.sPort, "--");
@@ -744,7 +744,7 @@ void Capture_thread::analysis_offline(const char *filename)
 
         default:
         {
-            strcpy(list.Protocol, "Î´ÖªÒÔÌ«°ü");
+            strcpy(list.Protocol, "æœªçŸ¥ä»¥å¤ªåŒ…");
             strcpy(list.sIP, "----------");
             strcpy(list.dIP, "----------");
             strcpy(list.sPort, "--");

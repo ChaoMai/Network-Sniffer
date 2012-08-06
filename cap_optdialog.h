@@ -24,10 +24,10 @@ public:
     }
 
 signals:
-    void set_para(const int i, //Íø¿¨ºÅ
-                  const Filter f, //²¶»ñ¹ıÂË
-                  const int c, //Íø¿¨Ä£Ê½
-                  const int e //Ã¿¸ö°üµÄ×î´ó´óĞ¡
+    void set_para(const int i, //ç½‘å¡å·
+                  const Filter f, //æ•è·è¿‡æ»¤
+                  const int c, //ç½‘å¡æ¨¡å¼
+                  const int e //æ¯ä¸ªåŒ…çš„æœ€å¤§å¤§å°
                   );
 
 private slots:
