@@ -51,7 +51,7 @@ private:
                   const Filter filter);
     QString analysis_detial(const struct pcap_pkthdr* header,
                             const u_char* pkt_data);
-    void decodechar(char* data, DWORD len);
+    void decodechar(char* data, long long len);
 };
 
 #endif // CAPTURE_H
