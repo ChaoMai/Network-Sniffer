@@ -47,10 +47,10 @@ int Optdialog::createdialog()
         return -1;
     }
 
-    QLabel* label1 = new QLabel(tr("设备"));
-    QLabel* label2 = new QLabel(tr("过滤"));
-    QLabel* label3 = new QLabel(tr("网卡模式"));
-    QLabel* label4 = new QLabel(tr("限制每个包的最大大小"));
+    QLabel* label1 = new QLabel(tr("device"));
+    QLabel* label2 = new QLabel(tr("filter"));
+    QLabel* label3 = new QLabel(tr("nic"));
+    QLabel* label4 = new QLabel(tr("max size of each package"));
 
     QVBoxLayout* tmp1 = new QVBoxLayout;
     tmp1->addWidget(label1);
@@ -92,8 +92,8 @@ int Optdialog::createdialog()
                                           20,
                                           QSizePolicy::Expanding,
                                           QSizePolicy::Minimum);
-    button1 = new QPushButton(tr("开始"));
-    button2 = new QPushButton(tr("取消"));
+    button1 = new QPushButton(tr("start"));
+    button2 = new QPushButton(tr("cancel"));
 
     QHBoxLayout* low = new QHBoxLayout;
     low->addItem(spacer);
@@ -127,8 +127,8 @@ void Optdialog::startbutton()
 void Optdialog::handle_grammererror()
 {
     QMessageBox::warning(this,
-                         "参数错误",
-                         "过滤参数不正确，过滤语法请查看帮助信息",
+                         "parameter error",
+                         "parameter error, check help for more information",
                          QMessageBox::Ok);
     delete(filter);
 }

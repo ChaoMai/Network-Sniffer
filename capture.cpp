@@ -42,7 +42,7 @@ int Capture_thread::get_interface_amount(void)
 
     if(0 == i)
     {
-        sprintf(errbuf, "未找到设备， 请确认WinPcap已安装");
+        sprintf(errbuf, "cannot find nic, please ensure WinPcap is installed");
         return -1;
     }
     else
@@ -56,7 +56,7 @@ int Capture_thread::get_interface_item(void)
     if(-1 == (pcap_findalldevs_ex(PCAP_SRC_IF_STRING,
                                   NULL, &alldevs, errbuf)))
     {
-        sprintf(errbuf, "查找设备时失败");
+        sprintf(errbuf, "failed to find nic");
         return -1;
     }
     return 0;
@@ -66,7 +66,7 @@ void Capture_thread::open_and_get()
 {
     if (pcap_findalldevs_ex(PCAP_SRC_IF_STRING, NULL, &alldevs, errbuf) == -1)
     {
-        sprintf(errbuf,"Error in pcap_findalldevs");
+        sprintf(errbuf, "error in pcap_findalldevs");
         return;
     }
 
@@ -92,7 +92,7 @@ void Capture_thread::open_and_get()
 
     if(NULL == adhandle)
     {
-        sprintf(errbuf, "无法打开适配器. %s不被WinPcap支持", d->name);
+        sprintf(errbuf, "cannot open device. %s is not suppreted by WinPcap", d->name);
         pcap_freealldevs(alldevs);
         return;
     }
@@ -104,7 +104,7 @@ void Capture_thread::open_and_get()
 
     if(NULL == dumpfile)
     {
-        sprintf(errbuf, "无法打开临时文件");
+        sprintf(errbuf, "failed to open temp file");
         return;
     }
 
@@ -308,7 +308,7 @@ void Capture_thread::analysis(const pcap_pkthdr *header,
         default:
         {
             analysised = true;
-            strcpy(list.Protocol, "未知IP包");
+            strcpy(list.Protocol, "unknown IP package");
             strcpy(list.sIP, "----------");
             strcpy(list.dIP, "----------");
             strcpy(list.sPort, "--");
@@ -344,7 +344,7 @@ void Capture_thread::analysis(const pcap_pkthdr *header,
     default:
     {
         analysised = true;
-        strcpy(list.Protocol, "未知以太包");
+        strcpy(list.Protocol, "unknown ethernet package");
         strcpy(list.sIP, "----------");
         strcpy(list.dIP, "----------");
         strcpy(list.sPort, "--");
@@ -374,7 +374,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
     struct iphead *IPHead;
     struct arphead *ARPHead;
 
-    sprintf(tmp, "<p>以太网帧长度:%d</p>", header->caplen);
+    sprintf(tmp, "<p>ethernet frame length:%d</p>", header->caplen);
     anadetial.append(QString(tmp));
 
     eth=(struct ether_header *)pkt_data;
@@ -386,7 +386,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
             *(mac_string + 3),
             *(mac_string + 4),
             *(mac_string + 5));
-    sprintf(tmp, "<p>源MAC地址:%s</p>", mac_addr);
+    sprintf(tmp, "<p>source MAC address:%s</p>", mac_addr);
     anadetial.append(QString(tmp));
 
     mac_string=eth->ether_dhost;
@@ -397,16 +397,16 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
             *(mac_string + 3),
             *(mac_string + 4),
             *(mac_string + 5));
-    sprintf(tmp, "<p>目的MAC地址:%s</p>", mac_addr);
+    sprintf(tmp, "<p>target MAC address:%s</p>", mac_addr);
     anadetial.append(QString(tmp));
 
-    anadetial.append(QString("<p>以太网帧类型:</p>"));
+    anadetial.append(QString("<p>ethernet frame type:</p>"));
     ptype = qFromBigEndian(eth->ether_type);
     switch(ptype)
     {
     case ETHERTYPE_ARP:
     {
-        sprintf(tmp, "<p>ARP包</p>");
+        sprintf(tmp, "<p>ARP package</p>");
         anadetial.append(QString(tmp));
 
         sprintf(tmp, "<p>---------------------</p>");
@@ -414,28 +414,28 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
         ARPHead = (arphead*)(pkt_data + 14);
 
-        sprintf(tmp, "<p>硬件类型:%d Byte</p>",
+        sprintf(tmp, "<p>hardware type:%d Byte</p>",
                 qFromBigEndian(ARPHead->arp_hardware_type));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>ARP包协议类型:%d</p>",
+        sprintf(tmp, "<p>ARP protocol type:%d</p>",
                 qFromBigEndian(ARPHead->arp_protocol_type));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>硬件长度:%d</p>",
+        sprintf(tmp, "<p>hardware length:%d</p>",
                 qFromBigEndian(ARPHead->arp_hardware_length));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>协议长度:%d</p>",
+        sprintf(tmp, "<p>protocol length:%d</p>",
                 qFromBigEndian(ARPHead->arp_protocol_length));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>ARP操作码:%d (请求1,回答2)</p>",
+        sprintf(tmp, "<p>ARP operation code:%d (request 1,response 2)</p>",
                 qFromBigEndian(ARPHead->arp_operation_code));
         anadetial.append(QString(tmp));
 
         mac_string=ARPHead->arp_source_ethernet_address;
-        sprintf(tmp, "<p>ARP包发送方MAC:%02X:%02X:%02X:%02X:%02X:%02X</p>",
+        sprintf(tmp, "<p>ARP sender MAC:%02X:%02X:%02X:%02X:%02X:%02X</p>",
                 *mac_string,
                 *(mac_string + 1),
                 *(mac_string + 2),
@@ -444,7 +444,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
                 *(mac_string + 5));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>ARP包发送方IP:%d.%d.%d.%d</p>",
+        sprintf(tmp, "<p>ARP sender IP:%d.%d.%d.%d</p>",
                 ARPHead->arp_source_ip_address[0],
                 ARPHead->arp_source_ip_address[1],
                 ARPHead->arp_source_ip_address[2],
@@ -452,7 +452,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
         anadetial.append(QString(tmp));
 
         mac_string=ARPHead->arp_destination_ethernet_address;
-        sprintf(tmp, "<p>ARP包接收方MAC:%02X:%02X:%02X:%02X:%02X:%02X</p>",
+        sprintf(tmp, "<p>ARP receiver MAC:%02X:%02X:%02X:%02X:%02X:%02X</p>",
                 *mac_string,
                 *(mac_string + 1),
                 *(mac_string + 2),
@@ -461,7 +461,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
                 *(mac_string + 5));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>ARP包接收方IP:%d.%d.%d.%d</p>",
+        sprintf(tmp, "<p>ARP receiver IP:%d.%d.%d.%d</p>",
                 ARPHead->arp_destination_ip_address[0],
                 ARPHead->arp_destination_ip_address[1],
                 ARPHead->arp_destination_ip_address[2],
@@ -473,7 +473,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
     case ETHERTYPE_REVARP:
     {
-        sprintf(tmp, "<p>RARP包</p>");
+        sprintf(tmp, "<p>RARP package</p>");
         anadetial.append(QString(tmp));
 
         break;
@@ -481,57 +481,57 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
     case ETHERTYPE_IP:
     {
-        sprintf(tmp, "<p>IP包</p>");
+        sprintf(tmp, "<p>IP package</p>");
         anadetial.append(QString(tmp));
         IPHead=(iphead *)(pkt_data+14);
         sprintf(tmp, "<p>---------------------</p>");
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP头长:%d BYTE</p>", (IPHead->ip_header_length) *4 );
+        sprintf(tmp, "<p>IP header length:%d BYTE</p>", (IPHead->ip_header_length) *4 );
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP版本号:%d</p>", IPHead->ip_version);
+        sprintf(tmp, "<p>IP version:%d</p>", IPHead->ip_version);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP服务类型:%d</p>", qFromBigEndian(IPHead->ip_tos));
+        sprintf(tmp, "<p>IP tos:%d</p>", qFromBigEndian(IPHead->ip_tos));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP包总长度:%d</p>", qFromBigEndian(IPHead->ip_length));
+        sprintf(tmp, "<p>IP length:%d</p>", qFromBigEndian(IPHead->ip_length));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP包标识:%d</p>", qFromBigEndian(IPHead->ip_id));
+        sprintf(tmp, "<p>IP id:%d</p>", qFromBigEndian(IPHead->ip_id));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP包分片标志(DF):%d</p>", (qFromBigEndian(IPHead->ip_off) & 0X4000) >> 14);
+        sprintf(tmp, "<p>IP fragmentation mark(DF):%d</p>", (qFromBigEndian(IPHead->ip_off) & 0X4000) >> 14);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP包分片标志(MF):%d</p>", (qFromBigEndian(IPHead->ip_off) & 0X2000) >> 13);
+        sprintf(tmp, "<p>IP fragmentation mark(MF):%d</p>", (qFromBigEndian(IPHead->ip_off) & 0X2000) >> 13);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP包分片偏移:%d Byte</p>", 8 * (qFromBigEndian(IPHead->ip_off) & 0X1FFF));
+        sprintf(tmp, "<p>IP fragmentation off:%d Byte</p>", 8 * (qFromBigEndian(IPHead->ip_off) & 0X1FFF));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP包生存时间:%d</p>", (IPHead->ip_ttl));
+        sprintf(tmp, "<p>IP ttl:%d</p>", (IPHead->ip_ttl));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP包检验和:%0X</p>", qFromBigEndian(IPHead->ip_checksum));
+        sprintf(tmp, "<p>IP check sum:%0X</p>", qFromBigEndian(IPHead->ip_checksum));
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP包源IP:%d.%d.%d.%d</p>",
+        sprintf(tmp, "<p>IP package source IP:%d.%d.%d.%d</p>",
                 IPHead->ip_souce_address.S_un.S_un_b.s_b1,
                 IPHead->ip_souce_address.S_un.S_un_b.s_b2,
                 IPHead->ip_souce_address.S_un.S_un_b.s_b3,
                 IPHead->ip_souce_address.S_un.S_un_b.s_b4);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP包目的IP:%d.%d.%d.%d</p>",
+        sprintf(tmp, "<p>IP package target IP:%d.%d.%d.%d</p>",
                 IPHead->ip_destination_address.S_un.S_un_b.s_b1,
                 IPHead->ip_destination_address.S_un.S_un_b.s_b2,
                 IPHead->ip_destination_address.S_un.S_un_b.s_b3,
                 IPHead->ip_destination_address.S_un.S_un_b.s_b4);
         anadetial.append(QString(tmp));
 
-        sprintf(tmp, "<p>IP协议:");
+        sprintf(tmp, "<p>IP protocol:");
         anadetial.append(QString(tmp));
 
         switch(IPHead->ip_protocol)
@@ -562,7 +562,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
         default:
         {
-            sprintf(tmp, "%d(未知)</p>", IPHead->ip_protocol);
+            sprintf(tmp, "%d(unknown)</p>", IPHead->ip_protocol);
             anadetial.append(QString(tmp));
 
             break;
@@ -581,7 +581,7 @@ QString Capture_thread::analysis_detial(const pcap_pkthdr* header,
 
     default:
     {
-        sprintf(tmp, "<p>未知</p>");
+        sprintf(tmp, "<p>unknown</p>");
         anadetial.append(QString(tmp));
 
         break;
@@ -721,7 +721,7 @@ void Capture_thread::analysis_offline(const char *filename)
 
             default:
             {
-                strcpy(list.Protocol, "未知IP包");
+                strcpy(list.Protocol, "unknown IP package");
                 strcpy(list.sIP, "----------");
                 strcpy(list.dIP, "----------");
                 strcpy(list.sPort, "--");
@@ -744,7 +744,7 @@ void Capture_thread::analysis_offline(const char *filename)
 
         default:
         {
-            strcpy(list.Protocol, "未知以太包");
+            strcpy(list.Protocol, "unknown ethernet package");
             strcpy(list.sIP, "----------");
             strcpy(list.dIP, "----------");
             strcpy(list.sPort, "--");

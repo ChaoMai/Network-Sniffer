@@ -48,8 +48,8 @@ void MainWindow::open()
         }
 
         QString filename = QFileDialog::getOpenFileName(this,
-                                                        tr("打开"), ".",
-                                                        tr("pcap文件 (*.pcap)"));
+                                                        tr("open"), ".",
+                                                        tr("pcap file (*.pcap)"));
         if(!filename.isEmpty())
         {
             is_file_opened = true;
@@ -64,8 +64,8 @@ void MainWindow::open()
 bool MainWindow::save()
 {
     QString filename = QFileDialog::getSaveFileName(this,
-                                                    tr("保存"), ".",
-                                                    tr("pcap文件 (*.pcap)"));
+                                                    tr("save"), ".",
+                                                    tr("pcap file (*.pcap)"));
     if(filename.isEmpty())
     {
         return false;
@@ -92,8 +92,8 @@ void MainWindow::close_file()
     else
     {
         QMessageBox::warning(this,
-                             tr("注意"),
-                             tr("未打开文件"));
+                             tr("warning"),
+                             tr("cannot open file"));
     }
 }
 
@@ -121,8 +121,8 @@ void MainWindow::start_capture()
         else if(capture->isRunning())
         {
             QMessageBox::warning(this,
-                                 tr("注意"),
-                                 tr("请先停止捕获数据包"));
+                                 tr("warning"),
+                                 tr("please stop capturing first"));
         }
     }
 }
@@ -144,14 +144,14 @@ void MainWindow::restart_capture()
         else if(NULL == capture && is_cap_para_setted)
         {
             QMessageBox::warning(this,
-                                 tr("注意"),
-                                 tr("只能在捕获状态下重新开始捕获"));
+                                 tr("warning"),
+                                 tr("restart capture is valid only in capture mode"));
         }
         else
         {
             QMessageBox::warning(this,
-                                 tr("注意"),
-                                 tr("捕获参数未设置"));
+                                 tr("warning"),
+                                 tr("capture parameter isn't set"));
         }
     }
 }
@@ -161,8 +161,8 @@ void MainWindow::stop_capture()
     if(NULL == capture)
     {
         QMessageBox::warning(this,
-                             tr("注意"),
-                             tr("未开始捕获数据包"));
+                             tr("warning"),
+                             tr("capturing didn't start yet"));
     }
     else
     {
@@ -181,12 +181,12 @@ void MainWindow::capture_option()
 void MainWindow::show_avalible()
 {
     QMessageBox::about(this,
-                       tr("当前可分析的数据包种类"),
-                       tr("<h2>网络层</h2>"
+                       tr("the program can analysis following package type:"),
+                       tr("<h2>network layer</h2>"
                           "<p>ARP</p>"
                           "<p>RARP</p>"
                           "<p>IP</p>"
-                          "<h2>传输层</h2>"
+                          "<h2>transport layer</h2>"
                           "<p>TCP</p>"
                           "<p>UDP</p>"
                           "<p>ICMP</p>"));
@@ -228,7 +228,7 @@ void MainWindow::update_show(const ListData data, QString anadetial)
     table->setItem(current, 9, new QTableWidgetItem(QString(tr(list_tmp.Text))));
     table->setItem(current, 10, new QTableWidgetItem(anadetial));
     char status[50];
-    sprintf(status, "已捕获：%d", current + 1);
+    sprintf(status, "captured：%d", current + 1);
     statusBar()->showMessage(QString(status));
 }
 
@@ -259,14 +259,14 @@ void MainWindow::show_listtext(int r, int c)
 
 void MainWindow::createactions()
 {
-    open_action = new QAction(tr("打开"), this);
+    open_action = new QAction(tr("open"), this);
     open_action->setShortcut(QKeySequence::New);
-    open_action->setStatusTip(tr("打开新的pcap文件"));
+    open_action->setStatusTip(tr("open new pcap file"));
     connect(open_action, SIGNAL(triggered()), this, SLOT(open()));
 
-    save_action = new QAction(tr("保存"), this);
+    save_action = new QAction(tr("save"), this);
     save_action->setShortcut(QKeySequence::Open);
-    save_action->setStatusTip(tr("保存数据到硬盘"));
+    save_action->setStatusTip(tr("save data to disk"));
     connect(save_action, SIGNAL(triggered()), this, SLOT(save()));
 
     for(int i = 0; i < max_recentfiles; ++i)
@@ -277,54 +277,54 @@ void MainWindow::createactions()
                 this, SLOT(open_recent()));
     }
 
-    close_action = new QAction(tr("关闭"), this);
-    close_action->setStatusTip(tr("关闭当前文件"));
+    close_action = new QAction(tr("close"), this);
+    close_action->setStatusTip(tr("close current file"));
     connect(close_action, SIGNAL(triggered()), this, SLOT(close_file()));
 
-    exit_action = new QAction(tr("退出"), this);
+    exit_action = new QAction(tr("quit"), this);
     exit_action->setShortcut(tr("Ctrl+Q"));
-    exit_action->setStatusTip(tr("退出程序"));
+    exit_action->setStatusTip(tr("quit program"));
     connect(exit_action, SIGNAL(triggered()), this, SLOT(close()));
 
-    start_action = new QAction(tr("开始捕获"), this);
-    start_action->setStatusTip(tr("开始捕获数据包"));
+    start_action = new QAction(tr("start"), this);
+    start_action->setStatusTip(tr("start to capture package"));
     connect(start_action, SIGNAL(triggered()),
             this, SLOT(start_capture()));
 
-    restart_action = new QAction(tr("重新开始捕获"), this);
-    restart_action->setStatusTip(tr("重新开始捕获数据包"));
+    restart_action = new QAction(tr("restart"), this);
+    restart_action->setStatusTip(tr("restart to capture package"));
     connect(restart_action, SIGNAL(triggered()),
             this, SLOT(restart_capture()));
 
-    stop_action = new QAction(tr("停止捕获"), this);
-    stop_action->setStatusTip(tr("停止捕获数据包"));
+    stop_action = new QAction(tr("stop"), this);
+    stop_action->setStatusTip(tr("stop"));
     connect(stop_action, SIGNAL(triggered()),
             this, SLOT(stop_capture()));
 
-    avalible_action = new QAction(tr("可分析的数据包"), this);
-    avalible_action->setStatusTip(tr("显示可分析的数据包"));
+    avalible_action = new QAction(tr("available packages"), this);
+    avalible_action->setStatusTip(tr("show packages that program cannot analysis"));
     connect(avalible_action, SIGNAL(triggered()),
             this, SLOT(show_avalible()));
 
-    manual_action = new QAction(tr("使用手册"), this);
-    manual_action->setStatusTip(tr("使用手册"));
+    manual_action = new QAction(tr("help"), this);
+    manual_action->setStatusTip(tr("help"));
     connect(manual_action, SIGNAL(triggered()),
             this, SLOT(show_manual()));
 
-    about_action = new QAction(tr("关于"), this);
-    about_action->setStatusTip(tr("关于本软件"));
+    about_action = new QAction(tr("about"), this);
+    about_action->setStatusTip(tr("about"));
     connect(about_action, SIGNAL(triggered()),
             this, SLOT(about()));
 
-    aboutqt_action = new QAction(tr("关于Qt"), this);
-    aboutqt_action->setStatusTip(tr("关于Qt"));
+    aboutqt_action = new QAction(tr("about Qt"), this);
+    aboutqt_action->setStatusTip(tr("about Qt"));
     connect(aboutqt_action, SIGNAL(triggered()),
             qApp, SLOT(aboutQt()));
 }
 
 void MainWindow::createmenus()
 {
-    file_menu = menuBar()->addMenu(tr("文件"));
+    file_menu = menuBar()->addMenu(tr("file"));
     file_menu->addAction(open_action);
     file_menu->addAction(save_action);
     file_menu->addAction(close_action);
@@ -336,17 +336,17 @@ void MainWindow::createmenus()
     file_menu->addSeparator();
     file_menu->addAction(exit_action);
 
-    capture_menu = menuBar()->addMenu(tr("捕获"));
+    capture_menu = menuBar()->addMenu(tr("capture"));
     capture_menu->addAction(start_action);
     capture_menu->addAction(restart_action);
     capture_menu->addAction(stop_action);
 
-    analysis_menu = menuBar()->addMenu(tr("分析"));
+    analysis_menu = menuBar()->addMenu(tr("analysis"));
     analysis_menu->addAction(avalible_action);
 
     menuBar()->addSeparator();
 
-    help_menu =  menuBar()->addMenu(tr("帮助"));
+    help_menu =  menuBar()->addMenu(tr("help"));
     help_menu->addAction(manual_action);
     help_menu->addAction(about_action);
     help_menu->addAction(aboutqt_action);
@@ -370,7 +370,7 @@ void MainWindow::createtoolbars()
 
 void MainWindow::createstatusbar()
 {
-    status_label = new QLabel(" 状态 ");
+    status_label = new QLabel(" Status ");
     status_label->setAlignment(Qt::AlignHCenter);
     status_label->setMinimumSize(status_label->sizeHint());
 
@@ -388,9 +388,9 @@ void MainWindow::createshowarea()
     table->setColumnHidden(9, true);
     table->setColumnHidden(10, true);
     QStringList headers;
-    headers << tr("时间") << tr("源IP") << tr("源Port") << tr("源MAC")
-            << tr("目的IP")  << tr("目的Port")<< tr("目的MAC") <<tr("协议")
-            << tr("长度");
+    headers << tr("time") << tr("source IP") << tr("source Port") << tr("source MAC")
+            << tr("target IP")  << tr("target Port")<< tr("target MAC") <<tr("protocol")
+            << tr("length");
     table->setHorizontalHeaderLabels(headers);
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -439,8 +439,8 @@ bool MainWindow::handle_tablechange()
     {
         int r;
         r = QMessageBox::warning(this,
-                                 tr("注意"),
-                                 tr("捕获的数据未保存，是否要保存？"),
+                                 tr("warning"),
+                                 tr("captured data isn't saved yet，save?"),
                                  QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if(QMessageBox::Yes == r)
         {
@@ -463,12 +463,12 @@ bool MainWindow::savefile(QString filename)
     status = file.rename(QString("/tmp.pcap"), filename);
     if(status)
     {
-        statusBar()->showMessage(QString("保存成功"), 2000);
+        statusBar()->showMessage(QString("successfully"), 2000);
         return true;
     }
     else
     {
-        statusBar()->showMessage(QString("保存失败"), 2000);
+        statusBar()->showMessage(QString("failed"), 2000);
         return false;
     }
 }
